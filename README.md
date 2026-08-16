@@ -1,4 +1,4 @@
-# Arquitectura —  portal.inf.uct.cl
+# Arquitectura — portal.inf.uct.cl
 
 ## 1. Visión y propósito
 
@@ -11,62 +11,19 @@ para el equipo del proyecto.
 
 ## 2. Diagrama del sistema
 
-```mermaid
-flowchart LR
-    subgraph clients["Clientes"]
-        B1[Browser]
-        B2[Browser]
-        B3[Browser]
-    end
-
-    NGINX((nginx))
-
-    subgraph system["Sistema"]
-        subgraph gateway["API Gateway"]
-            GW[API Gateway]
-            GW_PG[(PostgreSQL)]
-            GW <--> GW_PG
-        end
-
-        PORTAL["Portal Service<br/>(PostgreSQL)"]
-
-        subgraph ldapgroup["LDAP gRPC Layer"]
-            LDAP_SVC["LDAP gRPC Layer<br/>(PostgreSQL)"]
-            LDAP[LDAP]
-            LDAP_SVC <--> LDAP
-        end
-
-        subgraph mailergroup["Mailer Service"]
-            MAILER["Mailer Service<br/>(PostgreSQL)"]
-            SMTP[SMTP Server]
-            MAILER <--> SMTP
-        end
-    end
-
-    B1 <--> NGINX
-    B2 <--> NGINX
-    B3 <--> NGINX
-    NGINX <--> gateway
-
-    gateway <-->|gRPC| ldapgroup
-    gateway <-->|gRPC| PORTAL
-    gateway <-->|gRPC| mailergroup
-
-    PORTAL <-->|gRPC| ldapgroup
-    PORTAL <-->|gRPC| mailergroup
-```
+<img src="./docs/portal-arch.inf.uct.cl" width="800">
 
 ## 3. Componentes y roles
 
-| Componente | Rol |
-|---|---|
-| **API Gateway** | Expone **JSON REST** hacia el exterior (browsers y apps externas); rutea; **audita** cada request; **emite y valida la sesión de plataforma** (HS256). La validación de **API keys + scopes** la **delega al portal** por gRPC; reenvía al servicio interno con el contexto autorizado. Habla por gRPC con Portal, LDAP y Mailer. |
-| **Portal Service** | **Dominio**: projects, members, resource_requests, aprobaciones. **Posee y valida las API keys** (en su PostgreSQL): al aprobar un recurso, crea la key directo. Habla **directo con LDAP** (directorio, sin API key) y **directo con Mailer** (templates). |
-| **Frontend** | Web general del ecosistema (dashboard de proyectos, admin, templates). Static, servida por **nginx**; llama al gateway por REST. |
-| **LDAP gRPC Layer** | **gRPC LDAP layer**: verificación de credenciales, directorio de usuarios, provisioning, sync. No maneja sesiones. |
-| **Mailer Service** | **gRPC SMTP layer**: envío de correos + templates HTML por proyecto. |
-| **LDAP** | Fuente de verdad de usuarios (gidNumber 500/600 → student/func). |
-| **nginx** | Reverse proxy / entry point público + sirve el frontend. |
+| Componente          | Rol                                                                                                                                                                                                                                                                                                                               |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **API Gateway**     | Expone **JSON REST** hacia el exterior (browsers y apps externas); rutea; **audita** cada request; **emite y valida la sesión de plataforma** (HS256). La validación de **API keys + scopes** la **delega al portal** por gRPC; reenvía al servicio interno con el contexto autorizado. Habla por gRPC con Portal, LDAP y Mailer. |
+| **Portal Service**  | **Dominio**: projects, members, resource_requests, aprobaciones. **Posee y valida las API keys** (en su PostgreSQL): al aprobar un recurso, crea la key directo. Habla **directo con LDAP** (directorio, sin API key) y **directo con Mailer** (templates).                                                                       |
+| **Frontend**        | Web general del ecosistema (dashboard de proyectos, admin, templates). Static, servida por **nginx**; llama al gateway por REST.                                                                                                                                                                                                  |
+| **LDAP gRPC Layer** | **gRPC LDAP layer**: verificación de credenciales, directorio de usuarios, provisioning, sync. No maneja sesiones.                                                                                                                                                                                                                |
+| **Mailer Service**  | **gRPC SMTP layer**: envío de correos + templates HTML por proyecto.                                                                                                                                                                                                                                                              |
+| **LDAP**            | Fuente de verdad de usuarios (gidNumber 500/600 → student/func).                                                                                                                                                                                                                                                                  |
+| **nginx**           | Reverse proxy / entry point público + sirve el frontend.                                                                                                                                                                                                                                                                          |
 
 Cada servicio tiene su propia PostgreSQL: la del gateway guarda audit/sesiones, la del portal
 projects/members/requests y las API keys, la de LDAP la caché de usuarios, la de mailer
@@ -194,7 +151,7 @@ sequenceDiagram
     end
 ```
 
-## 7. Mailer Service 
+## 7. Mailer Service
 
 Mailer funciona como un servicio de envío tipo **Resend**: los proyectos crean
 **templates HTML con variables interpolables** y envían correos referenciando un template.

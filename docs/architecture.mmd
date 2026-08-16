@@ -1,0 +1,42 @@
+flowchart LR
+    subgraph clients["Clientes"]
+        B1[Browser]
+        B2[Browser]
+        B3[Browser]
+    end
+
+    NGINX((nginx))
+
+    subgraph system["Sistema"]
+        subgraph gateway["API Gateway"]
+            GW[API Gateway]
+            GW_PG[(PostgreSQL)]
+            GW <--> GW_PG
+        end
+
+        PORTAL["Portal Service<br/>(PostgreSQL)"]
+
+        subgraph ldapgroup["LDAP gRPC Layer"]
+            LDAP_SVC["LDAP gRPC Layer<br/>(PostgreSQL)"]
+            LDAP[LDAP]
+            LDAP_SVC <--> LDAP
+        end
+
+        subgraph mailergroup["Mailer Service"]
+            MAILER["Mailer Service<br/>(PostgreSQL)"]
+            SMTP[SMTP Server]
+            MAILER <--> SMTP
+        end
+    end
+
+    B1 <--> NGINX
+    B2 <--> NGINX
+    B3 <--> NGINX
+    NGINX <--> gateway
+
+    gateway <-->|gRPC| ldapgroup
+    gateway <-->|gRPC| PORTAL
+    gateway <-->|gRPC| mailergroup
+
+    PORTAL <-->|gRPC| ldapgroup
+    PORTAL <-->|gRPC| mailergroup
