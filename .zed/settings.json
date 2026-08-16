@@ -1,0 +1,62 @@
+{
+	"tab_size": 4,
+	"hard_tabs": true,
+	"format_on_save": "on",
+	"formatter": "language_server",
+	"file_scan_exclusions": [
+		"**/.git/**",
+		"**/target/**",
+	],
+	"languages": {
+		"YAML": {
+			"formatter": "language_server",
+			"tab_size": 2
+		},
+		"Rust": {
+			"formatter": "language_server",
+			"enable_language_server": true,
+		},
+		"TypeScript": {
+			"formatter": "prettier",
+			"enable_language_server": true,
+		},
+		"HTML": {
+			"formatter": "prettier",
+		},
+		"JSON": {
+			"formatter": "prettier",
+			"tab_size": 4
+		},
+		"TOML": {
+			"formatter": "language_server",
+		},
+	},
+	"lsp": {
+		"rust-analyzer": {
+			"initialization_options": {
+				"cargo": {
+					"features": "all",
+				},
+				"procMacro": {
+					"enable": true,
+				},
+				"diagnostics": {
+					"enable": true,
+				},
+			},
+		},
+		"tailwindcss-language-server": {
+			"settings": {
+				"classFunctions": [
+					"cva",
+					"cx"
+				],
+				"experimental": {
+					"classRegex": [
+						"[cls|className]\\s\\:\\=\\s\"([^\"]*)"
+					]
+				}
+			}
+		}
+	},
+}
