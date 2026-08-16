@@ -11,7 +11,7 @@ para el equipo del proyecto.
 
 ## 2. Diagrama del sistema
 
-<img src="./docs/portal-arch.inf.uct.cl" width="800">
+![arch-diagram-draw](https://github.com/INF-UCT/portal/blob/main/docs/portal-arch.excalidraw.png?raw=true)
 
 ## 3. Componentes y roles
 
