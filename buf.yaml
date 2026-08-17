@@ -1,0 +1,8 @@
+version: v2
+
+lint:
+  use:
+    - STANDARD
+  except:
+    - MAX_LINE_LENGTH
+    - SERVICE_NAMES_UPPER_CAMEL_CASE
