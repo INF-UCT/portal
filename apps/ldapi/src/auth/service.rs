@@ -26,6 +26,7 @@ impl AuthService {
 			if self
 				.password_service
 				.verify(password, &record.password_hash)
+				.await?
 			{
 				tracing::info!("[✓] Usuario {} autenticado con hash local", username);
 
@@ -37,7 +38,7 @@ impl AuthService {
 			// El password pudo cambiar en LDAP: se reintenta una vez y se actualiza el hash.
 			match self.ldap_authenticate(username, password).await {
 				Ok(_user_info) => {
-					let new_hash = self.password_service.hash(password)?;
+					let new_hash = self.password_service.hash(password).await?;
 
 					self.user_repository
 						.update_password_hash(&record.id, &new_hash)
@@ -56,7 +57,7 @@ impl AuthService {
 			tracing::info!("[*] Primer login de {}, registrando desde LDAP", username);
 
 			let user_info = self.ldap_authenticate(username, password).await?;
-			let password_hash = self.password_service.hash(password)?;
+			let password_hash = self.password_service.hash(password).await?;
 
 			let record = User {
 				id: UserId::new(),
