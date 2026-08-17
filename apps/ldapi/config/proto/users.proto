@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package users;
+
+message ProtoUser {
+  string id = 1;
+  string uid = 2;
+  string name = 3;
+  string email = 4;
+  string role = 5;
+  optional string last_login_at = 6;
+}
+
+message GetUserRequest {
+  string id = 1;
+}
+
+message GetUsersRequest {
+  optional string search = 1;
+  optional string role = 2;
+}
+
+message GetUsersResponse {
+  repeated ProtoUser users = 1;
+}
+
+service UserRpcService {
+  rpc GetUser(GetUserRequest) returns (ProtoUser);
+  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse);
+}

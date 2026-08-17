@@ -1,0 +1,42 @@
+[package]
+name = "ldapi"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "ldapi"
+path = "src/main.rs"
+
+[[bin]]
+name = "seeder"
+path = "bin/seeder/main.rs"
+
+[profile.dev]
+debug = "line-tables-only"
+
+[dependencies]
+tokio = { version = "1.52.3", features = ["full"] }
+sword = { version = "0.4.0", features = ["grpc", "grpc-reflection", "grpc-error-details"] }
+
+sqlx = {
+	version = "0.8.6",
+	features = ["chrono", "macros", "postgres", "runtime-tokio", "uuid"]
+}
+
+tracing = "0.1.44"
+thiserror = "2.0.17"
+uuid = { version = "1.19.0", features = ["serde", "v4"] }
+chrono = { version = "0.4.42", features = ["serde"] }
+serde = { version = "1.0.228", features = ["derive"] }
+regex = "1.12.4"
+ldap3 = { version = "0.12.1", features = ["tls"] }
+argon2 = "0.5.3"
+sha2 = "0.10"
+o2o = "0.5.5"
+
+tonic = "0.14.6"
+tonic-prost = "0.14.6"
+prost = "0.14.4"
+
+[build-dependencies]
+tonic-prost-build = "0.14.6"

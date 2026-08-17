@@ -1,0 +1,33 @@
+[application]
+name = "ldapi"
+
+[grpc]
+port = 50051
+host = "0.0.0.0"
+body-limit = "10MB"
+
+[postgres-db]
+user = "${POSTGRES_USER}"
+password = "${POSTGRES_PASSWORD}"
+database = "ldapi-db"
+port = "${POSTGRES_PORT}"
+host = "${POSTGRES_HOST}"
+migrations_path = "config/migrations"
+min_connections = 1
+max_connections = 10
+acquire_timeout_ms = 5000
+
+[ldap]
+url = "${LDAP_URL}"
+base_dn = "${LDAP_BASE_DN}"
+admin_user = "${LDAP_ADMIN_USER}"
+admin_password = "${LDAP_ADMIN_PASSWORD}"
+
+[tracing]
+enabled = true
+display = false
+filter = "debug,sword=info,sqlx=error"
+format = "dev"
+time-style = "none"
+time-pattern = "%H:%M:%S"
+with-fields = []
