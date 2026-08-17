@@ -1,0 +1,3 @@
+target/
+data/ldap/*.csv
+data/ldap/*.ldif
