@@ -1,0 +1,72 @@
+services:
+  ldapi:
+    container_name: ldapi
+    build:
+      context: .
+      dockerfile: apps/ldapi/Dockerfile
+      target: dev
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 50051 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 600s
+    ports:
+      - "50051:50051"
+    networks:
+      - ldapi-network
+    volumes:
+      - ./:/app
+      - server_target:/app/target
+      - cargo_cache:/home/appuser/.cargo
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: portal-postgres
+    command: postgres -c log_min_messages=ERROR -c log_statement=none -c log_duration=off -c log_min_duration_statement=-1 -c log_checkpoints=off
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - ldapi-network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  ldap:
+    image: ghcr.io/inf-uct/ldap:latest
+    container_name: dev-ldap
+    ports:
+      - "389:389"
+    volumes:
+      - ./data/ldap/users.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/30-users.ldif
+    command: "--copy-service"
+    networks:
+      - ldapi-network
+
+networks:
+  ldapi-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  server_target:
+  cargo_cache:

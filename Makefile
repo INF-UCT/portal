@@ -22,7 +22,7 @@ down:
 	docker compose down
 
 seed:
-	cargo run --bin seeder
+	cargo run -p ldapi --bin seeder
 
 clean:
 	docker compose down -v
@@ -34,7 +34,7 @@ lint:
 	cargo clippy --workspace --all-targets --all-features -- -D warnings
 
 migration:
-	sqlx migrate add --source ./config/migrations "$(name)"
+	sqlx migrate add --source ./apps/ldapi/config/migrations "$(name)"
 
 machete:
 	cargo machete

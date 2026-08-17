@@ -4,7 +4,8 @@ name = "ldapi"
 [grpc]
 port = 50051
 host = "0.0.0.0"
-body-limit = "10MB"
+enable-tonic-reflection = true
+body-limit = { max-decoding-message-size = "10MB", max-encoding-message-size = "10MB" }
 
 [postgres-db]
 user = "${POSTGRES_USER}"
@@ -26,7 +27,7 @@ admin_password = "${LDAP_ADMIN_PASSWORD}"
 [tracing]
 enabled = true
 display = false
-filter = "debug,sword=info,sqlx=error"
+filter = "debug,sword=info,sqlx=error,tonic=off,h2=off"
 format = "dev"
 time-style = "none"
 time-pattern = "%H:%M:%S"
