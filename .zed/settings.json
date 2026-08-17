@@ -30,6 +30,12 @@
 		"TOML": {
 			"formatter": "language_server",
 		},
+		"Proto": {
+			"format_on_save": "on",
+			"language_servers": [
+				"buf"
+			],
+		}
 	},
 	"lsp": {
 		"rust-analyzer": {
@@ -57,6 +63,6 @@
 					]
 				}
 			}
-		}
+		},
 	},
 }
