@@ -5,6 +5,7 @@ mod errors;
 mod repository;
 mod service;
 
+use controller::UsersController;
 use sword::prelude::*;
 
 pub use dtos::*;
@@ -21,6 +22,10 @@ pub mod proto {
 pub struct UsersModule;
 
 impl Module for UsersModule {
+	fn register_controllers(controllers: &ControllerRegistry) {
+		controllers.register::<UsersController>();
+	}
+
 	fn register_components(components: &ComponentRegistry) {
 		components.register::<UsersRepository>();
 		components.register::<UsersService>();

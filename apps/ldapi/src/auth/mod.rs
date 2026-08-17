@@ -7,6 +7,7 @@ pub use dtos::*;
 pub use errors::*;
 pub use service::*;
 
+use controller::AuthController;
 use sword::prelude::*;
 
 pub mod users {
@@ -21,6 +22,10 @@ pub mod proto {
 pub struct AuthModule;
 
 impl Module for AuthModule {
+	fn register_controllers(controllers: &ControllerRegistry) {
+		controllers.register::<AuthController>();
+	}
+
 	fn register_components(components: &ComponentRegistry) {
 		components.register::<AuthService>();
 	}
