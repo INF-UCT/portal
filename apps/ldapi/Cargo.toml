@@ -28,8 +28,8 @@ thiserror = "2.0.17"
 uuid = { version = "1.19.0", features = ["serde", "v4"] }
 chrono = { version = "0.4.42", features = ["serde"] }
 serde = { version = "1.0.228", features = ["derive"] }
-regex = "1.12.4"
 ldap3 = { version = "0.12.1", features = ["tls"] }
+regex = "1.12.4"
 argon2 = "0.5.3"
 sha2 = "0.10"
 o2o = "0.5.5"

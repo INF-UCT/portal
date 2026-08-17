@@ -9,4 +9,4 @@ export HOME=/home/appuser
 export CARGO_HOME=/home/appuser/.cargo
 
 exec gosu appuser:appuser \
-	sh -c 'cd /app/apps/ldapi && exec cargo watch -x "run -p ldapi --bin ldapi" -w src -w config'
+	sh -c 'cd /app/apps/ldapi && exec cargo watch -x "run -p ldapi --bin ldapi" -w src -w config -w /app/shared/proto'

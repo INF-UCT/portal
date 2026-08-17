@@ -1,6 +1,6 @@
-mod auth;
-mod shared;
-mod users;
+pub mod auth;
+pub mod shared;
+pub mod users;
 
 use sword::Application;
 
