@@ -1,7 +1,7 @@
 name: "Requerimiento"
 description: Nuevo requerimiento de un servicio de la plataforma
-title: "[Servicio] Título descriptivo del requerimiento"
-labels: ["type:rf"]
+title: "Título descriptivo del requerimiento"
+labels: ["type:requirement"]
 body:
   - type: markdown
     attributes:
