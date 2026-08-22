@@ -1,0 +1,49 @@
+name: "Requerimiento"
+description: Nuevo requerimiento de un servicio de la plataforma
+title: "[Servicio] Título descriptivo del requerimiento"
+labels: ["type:rf"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Requerimiento funcional de la plataforma. Completa cada sección; los criterios de aceptación son obligatorios.
+  - type: input
+    id: servicio
+    attributes:
+      label: Servicio
+      description: Servicio de la plataforma al que pertenece el requerimiento
+      placeholder: "Portal · Gateway · LDAPI · Mailer · Frontend"
+    validations:
+      required: true
+  - type: textarea
+    id: contexto
+    attributes:
+      label: Contexto
+      description: Problema que resuelve y por qué existe el requerimiento
+      placeholder: "El problema que motiva este requerimiento..."
+    validations:
+      required: true
+  - type: textarea
+    id: requerimiento
+    attributes:
+      label: Requerimiento
+      description: Narrativa declarativa y completa de lo que el sistema debe hacer
+      placeholder: "El sistema permite/requiere..."
+    validations:
+      required: true
+  - type: textarea
+    id: aceptacion
+    attributes:
+      label: Criterios de aceptación
+      description: Lista verificable de condiciones de cumplimiento
+      placeholder: |
+        - [ ] criterio verificable 1
+        - [ ] criterio verificable 2
+    validations:
+      required: true
+  - type: textarea
+    id: dependencias
+    attributes:
+      label: Dependencias / notas
+      description: Otros requerimientos o servicios relacionados (opcional)
+      placeholder: "Depende de..., bloquea a..., nota sobre..."

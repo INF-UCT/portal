@@ -6,3 +6,4 @@ data/ldap/*.ldif
 .env
 .env.*
 !.env.example
+issues/
